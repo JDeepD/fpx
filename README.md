@@ -1,6 +1,6 @@
 
 <div align="center" margin="0">
-  <img src="https://github.com/JDeepD/fpx/assets/64089730/183d8baf-699a-4aa7-9d50-9374f90ccfa1"  />
+  <img src="https://github.com/JDeepD/fpx/assets/64089730/f149a074-5330-4d5e-b8f2-bb4acf1f91ee"  />
 </div>
 
 
