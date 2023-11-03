@@ -27,30 +27,29 @@ function setproxy {
     param (
         [string]$proxyserver
     )
-    $envSetupScript = {
-        # Set environment variable (Machine)
-        [System.Environment]::SetEnvironmentVariable('http_proxy',$proxyserver, [System.EnvironmentVariableTarget]::Machine)
-	    [System.Environment]::SetEnvironmentVariable('https_proxy',$proxyserver, [System.EnvironmentVariableTarget]::Machine)
-    }
     git config --global http.proxy $proxyserver
     git config --global https.proxy $proxyserver
     npm config set proxy $proxyserver
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name 'ProxyServer' -Value $proxyserver
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name 'ProxyEnable' -Value 1
-    Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"$envSetupScript`" -Verb RunAs" -WindowStyle Hidden
+    $job = Start-Job -ScriptBlock {
+    param (
+        $variableValue
+    )
+        [Environment]::SetEnvironmentVariable('http_proxy', $variableValue, [System.EnvironmentVariableTarget]::User)
+        [Environment]::SetEnvironmentVariable('https_proxy', $variableValue, [System.EnvironmentVariableTarget]::User)
+    } -ArgumentList $proxyserver
 }
 
 function unsetproxy {
-    $envSetupScript = {
-        # Unset environment variable (Machine)
-        [System.Environment]::SetEnvironmentVariable('http_proxy','',[System.EnvironmentVariableTarget]::Machine)
-	    [System.Environment]::SetEnvironmentVariable('https_proxy','',[System.EnvironmentVariableTarget]::Machine)
-    }
     git config --global --unset http.proxy
     git config --global --unset https.proxy
     npm config -g rm proxy
     Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' -Name 'ProxyEnable' -Value 0
-    Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"$envSetupScript`" -Verb RunAs" -WindowStyle Hidden
+    $job = Start-Job -ScriptBlock {
+        [Environment]::SetEnvironmentVariable('http_proxy', '', [System.EnvironmentVariableTarget]::User)
+        [Environment]::SetEnvironmentVariable('https_proxy', '', [System.EnvironmentVariableTarget]::User)
+    }
 }
 
 function updateproxy {
@@ -71,9 +70,10 @@ $FormMain.Width = 400
 $FormMain.Height = 200
 $FormMain.AutoSize = $false
 
+
 $info = New-Object Windows.Forms.Label
 $info.Location = New-Object Drawing.Point(20, 140)
-$info.Font = New-Object Drawing.Font("Arial", 10, [System.Drawing.FontStyle]::Bold)  # Set font size to 14
+$info.Font = New-Object Drawing.Font("Arial", 10, [System.Drawing.FontStyle]::Bold)
 updateproxy
 $info.AutoSize = $true
 $FormMain.Controls.Add($info)
@@ -81,14 +81,14 @@ $FormMain.Controls.Add($info)
 $label = New-Object Windows.Forms.Label
 $label.Location = New-Object Drawing.Point(20, 20)
 $label.Text = "Select a Proxy:"
-$label.Font = New-Object Drawing.Font("Arial", 10, [System.Drawing.FontStyle]::Bold)  # Set font size to 14
+$label.Font = New-Object Drawing.Font("Arial", 10, [System.Drawing.FontStyle]::Bold)
 $label.AutoSize = $true
 $FormMain.Controls.Add($label)
 
 $comboBox = New-Object Windows.Forms.ComboBox
 $comboBox.Location = New-Object Drawing.Point(20, 50)
 $comboBox.Width = 350
-$comboBox.Font = New-Object Drawing.Font("Arial", 12, [System.Drawing.FontStyle]::Regular)  # Set font size to 12
+$comboBox.Font = New-Object Drawing.Font("Arial", 12, [System.Drawing.FontStyle]::Regular)
 $comboBox.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDownList
 
 foreach ($proxy in $ProxyList) {

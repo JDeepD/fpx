@@ -8,7 +8,7 @@
 
 Currently only made for NIT Silchar.
 
-#### Download binary from [here](https://github.com/JDeepD/fpx/releases).
+#### Download the latest binary from [here](https://github.com/JDeepD/fpx/releases).
 
 ## Usage? (Its as simple as it gets)
 https://github.com/JDeepD/fpx/assets/64089730/8f16439e-e821-4db8-b0f2-38bece5311bb
@@ -19,3 +19,7 @@ https://github.com/JDeepD/fpx/assets/64089730/8f16439e-e821-4db8-b0f2-38bece5311
 - [ ] Make Proxy Configuration Customisable
 - [ ] UI Improvments
 
+## Common Issues:
+
+1. Make sure `git` and `nodejs` are in the path for their proxy configurations to change.
+2. [Drop an Issue](https://github.com/JDeepD/fpx/issues) in the Issues section if you face some bugs.
