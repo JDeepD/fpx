@@ -65,10 +65,11 @@ function updateproxy {
 Add-Type -assembly System.Windows.Forms
 
 $FormMain = New-Object System.Windows.Forms.Form
-$FormMain.Text ='FPX : A Fast Proxy Manager'
-$FormMain.Width = 400
-$FormMain.Height = 200
+$FormMain.Text ='FPX : A Fast Proxy Manager by GDSC NITS'
+$FormMain.Width = 420
+$FormMain.Height = 220
 $FormMain.AutoSize = $false
+$FormMain.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedDialog
 
 
 $info = New-Object Windows.Forms.Label
@@ -84,6 +85,13 @@ $label.Text = "Select a Proxy:"
 $label.Font = New-Object Drawing.Font("Arial", 10, [System.Drawing.FontStyle]::Bold)
 $label.AutoSize = $true
 $FormMain.Controls.Add($label)
+
+$credits = New-Object Windows.Forms.Label
+$credits.Location = New-Object Drawing.Point(220, 165)
+$credits.Text = "Crafted by JDeepD at GDSC NITS"
+$credits.Font = New-Object Drawing.Font("Arial", 8, [System.Drawing.FontStyle]::Regular)
+$credits.AutoSize = $true
+$FormMain.Controls.Add($credits)
 
 $comboBox = New-Object Windows.Forms.ComboBox
 $comboBox.Location = New-Object Drawing.Point(20, 50)
