@@ -69,6 +69,8 @@ $FormMain.Text ='FPX : A Fast Proxy Manager'
 $FormMain.Width = 400
 $FormMain.Height = 200
 $FormMain.AutoSize = $false
+$FormMain.StartPosition = 'CenterScreen'
+$FormMain.FormBorderStyle = 'FixedSingle'
 
 
 $info = New-Object Windows.Forms.Label
