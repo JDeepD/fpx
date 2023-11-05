@@ -69,6 +69,7 @@ $FormMain.Text ='FPX : A Fast Proxy Manager by GDSC NITS'
 $FormMain.Width = 420
 $FormMain.Height = 220
 $FormMain.AutoSize = $false
+$FormMain.StartPosition = 'CenterScreen'
 $FormMain.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedDialog
 
 
